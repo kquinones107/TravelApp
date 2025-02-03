@@ -9,13 +9,17 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
+  Modal,
 } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Destinations');
+  const [isFilterModalVisible, setFilterModalVisible] = useState(false);
   const filters = ['All', 'Beach', 'Mountain', 'Snow'];
+  const categories = [ 'Destinations', 'Accommodations', 'Hotels' ];
   const destinations = [
     {
       id: '1',
@@ -93,6 +97,43 @@ export default function HomeScreen() {
     },
   ];
 
+  // Filtra la lista activa según la categoría seleccionada
+  const getFilteredItems = () => {
+    if (selectedCategory === 'Destinations') return destinations;
+    if (selectedCategory === 'Accommodations') return accommodations;
+    if (selectedCategory === 'Hotels') return hotels;
+    return [];
+  };
+
+  const filteredItems = getFilteredItems();
+
+  // Función para filtrar elementos por búsqueda y categoría
+  const filterItems = (items: 
+    { 
+      id: string; 
+      name: string; 
+      location: string; 
+      image: any[]; 
+      price: string; 
+      oldPrice?: string; 
+      rating: number; 
+      reviews: number; 
+      type?: string 
+    }[]) => {
+    return items.filter((item) => {
+      const matchesSearch =
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.location.toLowerCase().includes(search.toLowerCase());
+      const matchesFilter =
+        selectedFilter === 'All' || (item.type || '').toLowerCase() === selectedFilter.toLowerCase();
+      return matchesSearch && matchesFilter;
+    });
+  };
+
+  const filteredDestinations = filterItems(destinations);
+  const filteredAccommodations = filterItems(accommodations);
+  const filteredHotels = filterItems(hotels);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -123,11 +164,59 @@ export default function HomeScreen() {
             onChangeText={setSearch}
           />
           {/* Botón de Filtro */}
-         <TouchableOpacity style={styles.filterButtonSearch}>
+         <TouchableOpacity style={styles.filterButtonSearch}
+          onPress={() => setFilterModalVisible(true)}
+         >
           <Ionicons name="options-outline" size={26} color="gray" />
          </TouchableOpacity>
         </View>
         <View>
+
+          {/* Modal de Categorías */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isFilterModalVisible}
+          onRequestClose={() => setFilterModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Select Category</Text>
+              <FlatList
+                data={categories}
+                keyExtractor={(item) => item}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.filterOption,
+                      selectedCategory === item && styles.filterOptionActive,
+                    ]}
+                    onPress={() => {
+                      setSelectedCategory(item);
+                      setFilterModalVisible(false); // Cierra el modal al seleccionar
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.filterOptionText,
+                        selectedCategory === item && styles.filterOptionTextActive,
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setFilterModalVisible(false)}
+              >
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
         <TouchableOpacity style={styles.searchButton}>
           <Text style={styles.searchButtonText}>Go</Text>
         </TouchableOpacity>
@@ -176,7 +265,7 @@ export default function HomeScreen() {
 
       {/* Destinos */}
       <FlatList
-        data={destinations}
+        data={filteredDestinations}
         keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -213,7 +302,7 @@ export default function HomeScreen() {
 
       {/* Sección de Nearby Accommodation */}
       <FlatList
-        data={accommodations}
+        data={filteredAccommodations}
         keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -258,7 +347,7 @@ export default function HomeScreen() {
 
       {/* Lista Vertical de Hoteles */}
       <FlatList
-        data={hotels}
+        data={filteredHotels}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.cardHotel}>
@@ -300,10 +389,39 @@ const styles = StyleSheet.create({
     marginRight: 60,
     fontWeight: 'bold',
   },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  closeButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 20,
+    marginTop: 10,
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   ratingContainerHotel: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 10,
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
   },
   container: {
     flex: 1,
@@ -459,6 +577,26 @@ const styles = StyleSheet.create({
   highlightedText: {
     color: '#dfffc0',
   },
+    filterOption: {
+      padding: 10,
+      borderRadius: 20,
+      marginVertical: 5,
+      marginHorizontal: 10,
+      backgroundColor: '#fff',
+      borderWidth: 1,
+      borderColor: '#ddd',
+    },
+    filterOptionActive: {
+      backgroundColor: '#4CAF50',
+      borderColor: '#4CAF50',
+    },
+    filterOptionText: {
+      fontSize: 16,
+      color: '#555',
+    },
+    filterOptionTextActive: {
+      color: '#fff',
+    },
     filterButtonSearch: {
         backgroundColor: '#fff',
         paddingHorizontal: 0,
