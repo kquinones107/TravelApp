@@ -141,12 +141,17 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View style={styles.userOval}>
+            <Image 
+              source={require('../assets/images/image_2.png')}
+              style={{ width: 30, height: 30, borderRadius: 15, marginLeft: -10 }} 
+            />
             <Text style={styles.userName}>Hi, Alexander</Text>
           </View>
           <TouchableOpacity style={styles.notificationIcon}>
           <Ionicons name="notifications-outline" size={28} color="#fff" />
           </TouchableOpacity>
         </View>
+
         <Text style={styles.headerMessage}>
           Let’s make <Text style={styles.highlightedText}>your dream</Text>{' '}
           holiday come true
@@ -274,7 +279,7 @@ export default function HomeScreen() {
             <View style={styles.imageContainer}>
             <Image source={item.image[0]} style={styles.cardImage} />
             <TouchableOpacity style={styles.favoriteButton}>
-              <FontAwesome name="heart-o" size={20} color="#4CAF50" />
+              <FontAwesome name="heart-o" size={20} color="#555" />
             </TouchableOpacity>
             </View>
 
@@ -316,7 +321,6 @@ export default function HomeScreen() {
               <Text style={styles.typeText}>{item.type}</Text>
             </View>
 
-            
             <Text style={styles.cardTitle}>{item.name}</Text>
             <Text style={styles.cardSubtitle}>{item.location}</Text>
             <View style={styles.infoRow}>
@@ -477,39 +481,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   filtersList: {
-    marginVertical: 20,
+    marginVertical: 10,
     paddingHorizontal: 10,
     marginTop: -15,
   },
   filterButton: {
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
+    paddingHorizontal: 28,
     paddingVertical: 10,
     borderRadius: 20,
-    marginLeft: 25,
+    marginLeft: 10,
     marginTop: 30,
     borderWidth: 1,
-    borderColor: '#555',
+    borderColor: '#888',
   },
   filterButtonActive: {
     backgroundColor: '#4CAF50',
   },
   filterButtonText: {
     fontSize: 14,
-    color: '#555',
+    color: '#888',
   },
   filterButtonTextActive: {
     color: '#fff',
   },
   card: {  
     marginLeft: 30,
-    marginRight: 15,
+    marginRight: -10,
     width: 250,
 
   },
   cardImage: {
     width: '100%',
-    height: 150,
+    height: 180,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderRadius: 15,
@@ -550,22 +554,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     paddingHorizontal: 25,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 24,
     borderColor: '#4CAF44',
     borderWidth: 1,
-    marginRight: 10,
-    marginLeft: 10,
+    flexDirection: 'row',
   },
   userName: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#fff',
     fontWeight: 'bold',
+    marginLeft: 10,
+    marginTop: 5,
   },
   notificationIcon: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginLeft: -10, // Reduce la separación entre el óvalo y el ícono
-    borderRadius: 20,
+    borderRadius: 25,
     marginRight: 10,
+    padding: 8,
   },
   headerMessage: {
     fontSize: 30,
@@ -630,7 +636,6 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 10,
       right: 10,
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
       padding: 8,
       borderRadius: 20,
       elevation: 0,
@@ -657,7 +662,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 15,
     width: 320,
-    elevation: 3, // Sombra para resaltar las tarjetas
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -665,10 +669,11 @@ const styles = StyleSheet.create({
   },
   typeBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#E8F5E9',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     paddingVertical: 5,
-    borderRadius: 15,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: '#4CAF50',
     marginBottom: 5,
   },
   typeText: {

@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
@@ -11,7 +11,7 @@ export default function SignInScreen() {
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
 
       {/* Email Input */}
@@ -101,7 +101,7 @@ export default function SignInScreen() {
           Sign Up
         </Text>
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
