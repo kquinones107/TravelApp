@@ -558,6 +558,7 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF44',
     borderWidth: 1,
     flexDirection: 'row',
+    marginTop: 20,
   },
   userName: {
     fontSize: 16,
@@ -711,13 +712,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   imageYear: {
-    width: 310,
-    height: 152,
+    width: 340,
+    height: 170,
     borderRadius: 15,
     marginVertical: 20,
     marginHorizontal: 30,
-    marginLeft: 40,
-    marginRight: 30,
+    marginLeft: 35,
+    marginRight: 35,
   },
   cardHotel: {
     flexDirection: 'row',
