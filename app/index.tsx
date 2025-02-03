@@ -1,37 +1,43 @@
 import { useRouter } from 'expo-router';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
 
 export default function OnboardingScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <Image source={require('../assets/images/balloons.png')} style={styles.image} />
-      <Text style={styles.title}>Explore Beyond: Your Gateway to Adventure</Text>
-      <Text style={styles.subtitle}>
-        Unveil the world's wonders with our travel app, designed for the modern-day explorer.
-      </Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.push('/signin')}
-      >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+    source={require('../assets/images/balloons.png')} 
+    style={styles.background}
+    resizeMode="cover"
+    >
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>Explore Beyond: Your Gateway to Adventure</Text>
+        <Text style={styles.subtitle}>
+          Unveil the world's wonders with our travel app, designed for the modern-day explorer.
+        </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/signin')}
+        >
+         <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    padding: 20 
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  image: { 
-    width: 100, 
-    height: 200, 
-    marginBottom: 20 
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'flex-end', // Posiciona el contenido al final del fondo
+    alignItems: 'center',
+    paddingBottom: 60, // Ajusta la distancia del contenido al borde inferior
+    paddingHorizontal: 20,
   },
   title: { 
     fontSize: 24, 
@@ -47,9 +53,12 @@ const styles = StyleSheet.create({
   button: { 
     backgroundColor: '#4CAF50', 
     padding: 15, 
-    borderRadius: 10 
+    paddingHorizontal: 80,
+    borderRadius: 20 
   },
   buttonText: { 
     color: '#fff', 
-    fontSize: 16 },
+    fontSize: 16 
+    
+  },
 });
